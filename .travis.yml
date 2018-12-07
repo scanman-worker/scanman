@@ -7,6 +7,7 @@ notifications:
     on_success: never
     on_failure: never
 script:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then exit 0; fi
   - git checkout $TRAVIS_BRANCH
   - (for ((i = 0; i < 60; ++i)); do sleep 60 ; printf "%s (%s )\n" "`date`" "`uptime`" ; done) & LOOP_PID=$! ; disown
   - source .params.sh
