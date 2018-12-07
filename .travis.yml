@@ -7,26 +7,23 @@ notifications:
     on_success: never
     on_failure: never
 script:
-  - export ORG="`echo \"$TRAVIS_COMMIT_MESSAGE\" | grep -Eo \"ORG=.*\" | awk -F'=' '{print $2}'`"
-  - echo $ORG
-  - export BOX="`echo \"$TRAVIS_COMMIT_MESSAGE\" | grep -Eo \"BOX=.*\" | awk -F'=' '{print $2}'`"
-  - echo $BOX
-  - export PROVIDER="`echo \"$TRAVIS_COMMIT_MESSAGE\" | grep -Eo \"PROVIDER=.*\" | awk -F'=' '{print $2}'`"
-  - echo $PROVIDER
-  - export VERSION="`echo \"$TRAVIS_COMMIT_MESSAGE\" | grep -Eo \"ORG=.*\" | awk -F'=' '{print $2}'`"
-  - echo $VERSION
+  - export ORG2="`echo \"$TRAVIS_COMMIT_MESSAGE\" | grep -Eo \"ORG=.*\" | awk -F'=' '{print $2}'`"
+  - export BOX2="`echo \"$TRAVIS_COMMIT_MESSAGE\" | grep -Eo \"BOX=.*\" | awk -F'=' '{print $2}'`"
+  - export PROVIDER2="`echo \"$TRAVIS_COMMIT_MESSAGE\" | grep -Eo \"PROVIDER=.*\" | awk -F'=' '{print $2}'`"
+  - export VERSION2="`echo \"$TRAVIS_COMMIT_MESSAGE\" | grep -Eo \"ORG=.*\" | awk -F'=' '{print $2}'`"
   - docker pull ladar/scanman:latest
-  - echo "${ORG} ${BOX} ${PROVIDER} ${VERSION} finished."
+  - echo
+  - echo "${ORG2} ${BOX2} ${PROVIDER2} ${VERSION2} finished."
+  - echo $ORG2 $BOX2 $PROVIDER2 $VERSION2 finished.
+  - echo
+  - source .params.sh
+  - docker run --cap-add=CAP_MKNOD --privileged -ti ladar/scanman:latest bash -c "bash /root/scan.sh $ORG $BOX $PROVIDER $VERSION"
+  - echo
+  - echo
   - echo $ORG $BOX $PROVIDER $VERSION finished.
-  - env
-  - docker run --cap-add=CAP_MKNOD --privileged -ti ladar/scanman:latest bash -c "bash /root/scan.sh generic centos7 vmware 1.8.50"
-  - echo 
-  - echo 
-  - echo 
-  - echo 
-  - echo 
-  - echo 
-  - echo 
-  - docker run --cap-add=CAP_MKNOD --privileged -ti ladar/scanman:latest bash -c "bash -x /root/scan.sh generic centos7 vmware 1.8.50"
-
-  
+  - echo
+  - echo
+  - echo
+  - echo
+  - echo
+  - docker run --cap-add=CAP_MKNOD --privileged -ti ladar/scanman:latest bash -c "bash /root/scan.sh generic centos6 vmware 1.8.50"
