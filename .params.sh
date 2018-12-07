@@ -1,4 +1,4 @@
 ORG=generic
-BOX=centos7
+BOX=centos6
 PROVIDER=vmware
 VERSION=1.8.50

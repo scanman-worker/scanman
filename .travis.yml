@@ -7,23 +7,8 @@ notifications:
     on_success: never
     on_failure: never
 script:
-  - export ORG2="`echo \"$TRAVIS_COMMIT_MESSAGE\" | grep -Eo \"ORG=.*\" | awk -F'=' '{print $2}'`"
-  - export BOX2="`echo \"$TRAVIS_COMMIT_MESSAGE\" | grep -Eo \"BOX=.*\" | awk -F'=' '{print $2}'`"
-  - export PROVIDER2="`echo \"$TRAVIS_COMMIT_MESSAGE\" | grep -Eo \"PROVIDER=.*\" | awk -F'=' '{print $2}'`"
-  - export VERSION2="`echo \"$TRAVIS_COMMIT_MESSAGE\" | grep -Eo \"ORG=.*\" | awk -F'=' '{print $2}'`"
-  - docker pull ladar/scanman:latest
-  - echo
-  - echo "${ORG2} ${BOX2} ${PROVIDER2} ${VERSION2} finished."
-  - echo $ORG2 $BOX2 $PROVIDER2 $VERSION2 finished.
-  - echo
   - source .params.sh
-  - docker run --cap-add=CAP_MKNOD --privileged -ti ladar/scanman:latest bash -c "bash /root/scan.sh $ORG $BOX $PROVIDER $VERSION"
-  - echo
-  - echo
+  - docker run --cap-add=CAP_MKNOD --privileged -ti ladar/scanman:latest bash -c "bash /root/scan.sh $ORG $BOX $PROVIDER $VERSION" | tee "$ORG-$BOX-$PROVIDER-$VERSIOtee "$ORG-$BOX-$PROVIDER-$VERSION resultsN.txt"
   - echo $ORG $BOX $PROVIDER $VERSION finished.
-  - echo
-  - echo
-  - echo
-  - echo
-  - echo
-  - docker run --cap-add=CAP_MKNOD --privileged -ti ladar/scanman:latest bash -c "bash /root/scan.sh generic centos6 vmware 1.8.50"
+  - git add "$ORG-$BOX-$PROVIDER-$VERSION.txt" && git rm .travis.yml
+  - git commit -m "tee "$ORG-$BOX-$PROVIDER-$VERSION results" &&git push 
