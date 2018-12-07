@@ -7,12 +7,13 @@ notifications:
     on_success: never
     on_failure: never
 script:
-  - ORG=`echo "$TRAVIS_COMMIT_MESSAGE" | grep ORG | awk -F'=' '{print $2}'`
-  - BOX=`echo "$TRAVIS_COMMIT_MESSAGE" | grep BOX | awk -F'=' '{print $2}'`
-  - PROVIDER=`echo "$TRAVIS_COMMIT_MESSAGE" | grep PROVIDER | awk -F'=' '{print $2}'`
-  - VERSION=`echo "$TRAVIS_COMMIT_MESSAGE" | grep VERSION | awk -F'=' '{print $2}'`
-  - echo "$TRAVIS_COMMIT_MESSAGE" | grep -E "ORG|BOX|PROVIDER|VERSION"
+  - export ORG=`echo "$TRAVIS_COMMIT_MESSAGE" | grep ORG | awk -F'=' '{print $2}'`
+  - export BOX=`echo "$TRAVIS_COMMIT_MESSAGE" | grep BOX | awk -F'=' '{print $2}'`
+  - export PROVIDER=`echo "$TRAVIS_COMMIT_MESSAGE" | grep PROVIDER | awk -F'=' '{print $2}'`
+  - export VERSION=`echo "$TRAVIS_COMMIT_MESSAGE" | grep VERSION | awk -F'=' '{print $2}'`
   - (for ((i = 0; i < 60; ++i)); do sleep 60 ; printf "%s (%s )\n" "`date`" "`uptime`" ; done) & LOOP_PID=$! ; disown
-  - docker run --cap-add=CAP_MKNOD --privileged -ti ladar/scanman /root/scan.sh $ORG $BOX $PROVIDER $VERSION
+  - docker pull ladar/scanman:latest
+  - docker run --cap-add=CAP_MKNOD --privileged -ti ladar/scanman:latest /root/scan.sh $ORG $BOX $PROVIDER $VERSION
+  - echo $ORG $BOX $PROVIDER $VERSION finished.
   - kill $LOOP_PID
   
