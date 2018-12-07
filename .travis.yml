@@ -7,6 +7,7 @@ notifications:
     on_success: never
     on_failure: never
 script:
+  - env
   - (for ((i = 0; i < 60; ++i)); do sleep 60 ; printf "%s (%s )\n" "`date`" "`uptime`" ; done) & LOOP_PID=$! ; disown
-  - docker run --cap-add=CAP_MKNOD --privileged -ti ladar/scanman /root/scan.sh generic centos6 vmware 1.8.50 
+  - docker run --cap-add=CAP_MKNOD --privileged -ti ladar/scanman /root/scan.sh generic centos7 vmware 1.8.50 
   - kill $LOOP_PID
