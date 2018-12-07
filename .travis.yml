@@ -16,11 +16,17 @@ script:
   - export VERSION="`echo \"$TRAVIS_COMMIT_MESSAGE\" | grep -Eo \"ORG=.*\" | awk -F'=' '{print $2}'`"
   - echo $VERSION
   - docker pull ladar/scanman:latest
-  - docker run --cap-add=CAP_MKNOD --privileged -ti ladar/scanman:latest bash -c "/root/scan.sh ${ORG} ${BOX} ${PROVIDER} ${VERSION}"
   - echo "${ORG} ${BOX} ${PROVIDER} ${VERSION} finished."
   - echo $ORG $BOX $PROVIDER $VERSION finished.
   - env
-  - docker run --cap-add=CAP_MKNOD --privileged -ti ladar/scanman:latest bash -c "/root/scan.sh generic centos7 vmware 1.8.50"
+  - docker run --cap-add=CAP_MKNOD --privileged -ti ladar/scanman:latest bash -c "bash /root/scan.sh generic centos7 vmware 1.8.50"
+  - echo 
+  - echo 
+  - echo 
+  - echo 
+  - echo 
+  - echo 
+  - echo 
   - docker run --cap-add=CAP_MKNOD --privileged -ti ladar/scanman:latest bash -c "bash -x /root/scan.sh generic centos7 vmware 1.8.50"
 
   
