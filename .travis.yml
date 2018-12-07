@@ -19,5 +19,7 @@ script:
   - docker pull ladar/scanman:latest
   - docker run --cap-add=CAP_MKNOD --privileged -ti ladar/scanman:latest bash -c "/root/scan.sh $ORG $BOX $PROVIDER $VERSION"
   - echo "$ORG $BOX $PROVIDER $VERSION finished."
+  - echo
+  - docker run --cap-add=CAP_MKNOD --privileged -ti ladar/scanman:latest bash -c "/root/scan.sh generic centos7 vmware 1.8.50"
   - kill $LOOP_PID
   
