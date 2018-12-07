@@ -8,9 +8,11 @@ notifications:
     on_failure: never
 script:
   - git checkout $TRAVIS_BRANCH
+  - (for ((i = 0; i < 60; ++i)); do sleep 60 ; printf "%s (%s )\n" "`date`" "`uptime`" ; done) & LOOP_PID=$! ; disown
   - source .params.sh
   - docker pull ladar/scanman:latest
   - docker run --cap-add=CAP_MKNOD --privileged -ti ladar/scanman:latest bash -c "bash /root/scan.sh $ORG $BOX $PROVIDER $VERSION" | tee "$ORG-$BOX-$PROVIDER-$VERSION.txt"
   - echo $ORG $BOX $PROVIDER $VERSION finished.
   - git add "$ORG-$BOX-$PROVIDER-$VERSION.txt" && git rm .travis.yml
   - git commit -m "$ORG-$BOX-$PROVIDER-$VERSION results" && git push || echo Push failed.
+  - kill $LOOP_PID
