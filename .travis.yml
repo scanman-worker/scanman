@@ -7,10 +7,12 @@ notifications:
     on_success: never
     on_failure: never
 script:
-  - env | grep TRAVIS | sort
-  - echo 
-  - echo
-  - env
+  - ORG=`echo $TRAVIS_COMMIT_MESSAGE | grep ORG | awk -F'=' '{print $2}'
+  - BOX=`echo $TRAVIS_COMMIT_MESSAGE | grep BOX | awk -F'=' '{print $2}'
+  - PROVIDER=`echo $TRAVIS_COMMIT_MESSAGE | grep PROVIDER | awk -F'=' '{print $2}'
+  - VERSION=`echo $TRAVIS_COMMIT_MESSAGE | grep VERSION | awk -F'=' '{print $2}'
+  - echo $TRAVIS_COMMIT_MESSAGE | grep -E "ORG|BOX|PROVIDER|VERSION"
   - (for ((i = 0; i < 60; ++i)); do sleep 60 ; printf "%s (%s )\n" "`date`" "`uptime`" ; done) & LOOP_PID=$! ; disown
-  - docker run --cap-add=CAP_MKNOD --privileged -ti ladar/scanman /root/scan.sh generic centos7 vmware 1.8.50 
+  - docker run --cap-add=CAP_MKNOD --privileged -ti ladar/scanman /root/scan.sh $ORG $BOX $PROVIDER $VERSION
   - kill $LOOP_PID
+  
