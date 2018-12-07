@@ -8,8 +8,8 @@ notifications:
     on_failure: never
 script:
   - source .params.sh
-  - docker run --cap-add=CAP_MKNOD --privileged -ti ladar/scanman:latest bash -c "bash /root/scan.sh $ORG $BOX $PROVIDER $VERSION" | tee "$ORG-$BOX-$PROVIDER-$VERSION.txt
+  - docker run --cap-add=CAP_MKNOD --privileged -ti ladar/scanman:latest bash -c "bash /root/scan.sh $ORG $BOX $PROVIDER $VERSION" | tee "$ORG-$BOX-$PROVIDER-$VERSION.txt"
   - echo $ORG $BOX $PROVIDER $VERSION finished.
-  - docker run --cap-add=CAP_MKNOD --privileged -ti ladar/scanman:latest bash -c "bash /root/scan2.sh $ORG $BOX $PROVIDER $VERSION" | tee "$ORG-$BOX-$PROVIDER-$VERSION.2.txt
+  - docker run --cap-add=CAP_MKNOD --privileged -ti ladar/scanman:latest bash -c "bash /root/scan2.sh $ORG $BOX $PROVIDER $VERSION" | tee "$ORG-$BOX-$PROVIDER-$VERSION.2.txt"
   - git add "$ORG-$BOX-$PROVIDER-$VERSION.txt" && git rm .travis.yml
-  - git commit -m "tee "$ORG-$BOX-$PROVIDER-$VERSION results" && git push
+  - git commit -m "$ORG-$BOX-$PROVIDER-$VERSION results" && git push
